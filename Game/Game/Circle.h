@@ -12,7 +12,9 @@ private:
 	Uint32 movev;
 public:
 	Circle(int x, int y);
-	void move();
+	void move(bool *held);
 	void render(SDL_Renderer* renderer);
+	inline float getCenterX(){ return x + 15; }
+	inline float getCenterY(){ return y + 15; }
 };
 #endif

@@ -1,22 +1,26 @@
 #include "Circle.h"
 #include <iostream>
-Circle::Circle(int x, int y):x(x),y(y){
+Circle::Circle(int x, int y) :x(x), y(y){
 	ticks = SDL_GetTicks();
 	movev = ticks;
 	speed = 200;
-	stepX = 1;
-	stepY = 1;
+	stepX = 0;
+	stepY = 0;
 }
 
-void Circle::move(){
+void Circle::move(bool* held){
 	float step = speed * (movev - ticks) / 1000;
+	if (held[SDLK_SPACE]) step *= 2;
 	ticks = movev;
 	movev = SDL_GetTicks();
-	x += stepX* step;
-	y += stepY *step;
-
-	if (x < 0 || x+30 > 640) stepX *= -1;
-	if (y < 0 || y+30 > 480) stepY *= -1;
+	if (held[SDLK_w]) y -= step;
+	if (held[SDLK_s]) y += step;
+	if (held[SDLK_a]) x -= step;
+	if (held[SDLK_d]) x += step;
+	if (x < 0) x = 0;
+	if (x + 30 > 640) x = 640 -30;
+	if (y < 0) y = 0;
+	if (y + 30 > 480) y = 480- 30;
 }
 
 void Circle::render(SDL_Renderer* renderer){

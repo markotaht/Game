@@ -40,7 +40,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\SDL\include;C:\SDL\SDL2_ttf-2.0.12\include;C:\SDL\SDL2_mixer-2.0.0\include;C:\SDL\SDL2_image-2.0.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL\lib\x86;C:\SDL\SDL2_ttf-2.0.12\lib\x86;C:\SDL\SDL2_mixer-2.0.0\lib\x86;C:\SDL\SDL2_image-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\SDL\SDL_gfx\lib;C:\SDL\lib\x86;C:\SDL\SDL2_ttf-2.0.12\lib\x86;C:\SDL\SDL2_mixer-2.0.0\lib\x86;C:\SDL\SDL2_image-2.0.0\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -71,9 +71,11 @@
   <ItemGroup>
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
