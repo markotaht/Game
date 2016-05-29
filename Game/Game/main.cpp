@@ -11,6 +11,7 @@ and may not be redistributed without written permission.*/
 #include <stdio.h>
 #include <string>
 #include <math.h>
+#include "Player.h"
 #include "Circle.h"
 #include "Wall.h"
 
@@ -191,7 +192,7 @@ struct PointerCompare {
 	}
 };
 
-void raycast(Circle* c, std::set<SDL_Point*>* points, std::set<LINE*>* lines){
+void raycast(Player* c, std::set<SDL_Point*>* points, std::set<LINE*>* lines){
 	float centerX = (c->getCenterX());
 	float centerY = (c->getCenterY());
 	std::vector<Point*> polygon;
@@ -215,11 +216,7 @@ void raycast(Circle* c, std::set<SDL_Point*>* points, std::set<LINE*>* lines){
 			polygon.push_back(closest);
 		}
 	}
-	std::cout << "algus" << std::endl;
 	std::sort(polygon.begin(), polygon.end(), PointerCompare());
-	for (std::vector<Point*>::iterator it = polygon.begin(); it != polygon.end(); ++it){
-		std::cout << (*it)->angle << std::endl;
-	}
 	render_polygon(polygon);
 }
 
@@ -246,15 +243,16 @@ int main(int argc, char* args[])
 			SDL_Event e;
 			std::set<LINE*> lines;
 			std::set<SDL_Point*> points;
-			Circle c(30, 30);
+			Player c(30, 30);
 			Wall w(180, 180);
 			Wall w2(300, 300);
 			Wall w3(400, 100);
+			Circle c2(200, 300, 20);
 			SDL_Rect r{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-			w.getPoints(&points, &lines);
-			w2.getPoints(&points, &lines);
-			w3.getPoints(&points, &lines);
+	//		w.getPoints(&points, &lines);
+	//		w2.getPoints(&points, &lines);
+	//		w3.getPoints(&points, &lines);
 			SDL_Point p{ 0, 0 };
 			SDL_Point p2{ 0, SCREEN_HEIGHT };
 			SDL_Point p3{ SCREEN_WIDTH, SCREEN_HEIGHT };
@@ -275,6 +273,13 @@ int main(int argc, char* args[])
 			points.insert(&p3);
 			points.insert(&p4);
 
+			LINE* l5 = c2.getVisiblePoints(c.getCenterX(), c.getCenterY());
+			lines.insert(l5);
+			SDL_Point a = l5->a;
+			SDL_Point b = l5->b;
+			points.insert(&a);
+			points.insert(&b);
+			std::cout << a.x;
 			int delay = 1000 / 120;
 			bool keysHeld[323] = { false };
 			//While application is running

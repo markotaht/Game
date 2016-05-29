@@ -1,34 +1,36 @@
 #include "Circle.h"
-#include <iostream>
-Circle::Circle(int x, int y) :x(x), y(y){
-	ticks = SDL_GetTicks();
-	movev = ticks;
-	speed = 200;
-	stepX = 0;
-	stepY = 0;
-}
 
-void Circle::move(bool* held){
-	float step = speed * (movev - ticks) / 1000;
-	if (held[SDLK_SPACE]) step *= 2;
-	ticks = movev;
-	movev = SDL_GetTicks();
-	if (held[SDLK_w]) y -= step;
-	if (held[SDLK_s]) y += step;
-	if (held[SDLK_a]) x -= step;
-	if (held[SDLK_d]) x += step;
-	if (x < 0) x = 0;
-	if (x + 30 > 640) x = 640 -30;
-	if (y < 0) y = 0;
-	if (y + 30 > 480) y = 480- 30;
-}
+Circle::Circle(float x, float y, float radius) : x(x), y(y), radius(radius){}
 
-void Circle::render(SDL_Renderer* renderer){
-	SDL_Rect rect;	
-	rect.x = (int)x;
-	rect.y = (int)y;
-	rect.w = 30;
-	rect.h = 30;
-	SDL_SetRenderDrawColor(renderer, 20, 40, 50, 0);
-	SDL_RenderFillRect(renderer, &rect);
+LINE* Circle::getVisiblePoints(float cx, float cy){
+	float hyp = sqrtf((x - cx)*(x - cx) + (y - cy)*(y - cy));
+	float angle = asinf(radius / hyp);
+
+	float l = sqrtf(hyp*hyp - radius*radius);
+
+	SDL_Point v{ x - cx, y - cy };
+	float ratio = hyp / l;
+
+	float cs = cos(angle);
+	float sn = sin(angle);
+
+	float px = v.x*cs - v.y * sn ;
+	float py = v.x * sn - v.y*cs ;
+
+	px *= ratio;
+	py *= -ratio;
+
+	float cs2 = cos(angle);
+	float sn2 = sin(-angle);
+
+	float px2 = v.x*cs2 - v.y * sn2 ;
+	float py2 = v.x * sn2 - v.y*cs2 ;
+
+	px2 *= ratio;
+	py2 *= -ratio;
+
+	SDL_Point a{ px2, py };
+	SDL_Point b{ px, py2 };
+
+	return new LINE{ a, b };
 }

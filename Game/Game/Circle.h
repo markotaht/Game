@@ -1,20 +1,17 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
+#include "Wall.h"
+#include <math.h>
 #include <SDL.h>
+
 class Circle{
 private:
-	float x, y;
-	int stepX;
-	int stepY;
-	int speed;
-	Uint32 ticks;
-	Uint32 movev;
+	float x;
+	float y;
+	float radius;
 public:
-	Circle(int x, int y);
-	void move(bool *held);
-	void render(SDL_Renderer* renderer);
-	inline float getCenterX(){ return x + 15; }
-	inline float getCenterY(){ return y + 15; }
+	Circle(float x, float y, float radius);
+	LINE* getVisiblePoints(float x, float y);
 };
 #endif
